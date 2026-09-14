@@ -1,6 +1,12 @@
 name: skill-evals
 
 on:
+  workflow_dispatch:
+    inputs:
+      ref:
+        description: "Commit or branch to validate"
+        required: true
+        type: string
   pull_request:
     paths:
       - "agent_skills/**"
@@ -15,6 +21,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
+      - name: Record checked revision
+        run: git rev-parse HEAD
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -39,6 +49,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -60,6 +72,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
@@ -71,6 +85,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.ref || github.sha }}
       - uses: actions/setup-python@v5
         with:
           python-version: "3.11"
